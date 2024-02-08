@@ -10,8 +10,12 @@ const NewProduct = () => {
   const navigate = useNavigate();
 
   const onFormSubmit = async (productMutation: ProductMutation) => {
-    await dispatch(createProduct(productMutation));
-    navigate('/');
+    try {
+      await dispatch(createProduct(productMutation)).unwrap();
+      navigate('/');
+    } catch {
+      //
+    }
   };
 
   return (

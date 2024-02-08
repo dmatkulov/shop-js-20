@@ -15,21 +15,25 @@ interface Props {
   price: number;
   id: string;
   image: string | null;
+  category: string;
 }
 
-const ProductItem: React.FC<Props> = ({title, price, id, image}) => {
+const ProductItem: React.FC<Props> = ({title, price, id, image, category}) => {
   let cardImage = imageNotAvailable;
-
+  
   if (image) {
     cardImage = apiURL + '/' + image;
   }
-
+  
   return (
     <Grid item sm md={6} lg={4}>
       <Card sx={{height: '100%'}}>
         <CardHeader title={title}/>
         <ImageCardMedia image={cardImage} title={title}/>
         <CardContent>
+          <p>
+            <strong>Category: </strong> {category}
+          </p>
           <strong>{price} KGS</strong>
         </CardContent>
         <CardActions>
@@ -39,7 +43,7 @@ const ProductItem: React.FC<Props> = ({title, price, id, image}) => {
         </CardActions>
       </Card>
     </Grid>
-  )
+  );
 };
 
 export default ProductItem;

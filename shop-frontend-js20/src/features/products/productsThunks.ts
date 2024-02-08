@@ -6,7 +6,7 @@ export const fetchProducts = createAsyncThunk<Product[]>(
   'products/fetchAll',
   async () => {
     const dishesResponse = await axiosApi.get<Product[]>('/products');
-    return dishesResponse.data;
+    return dishesResponse.data.reverse();
   }
 );
 
