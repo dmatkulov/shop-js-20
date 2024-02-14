@@ -1,13 +1,11 @@
-// types.d.ts
-
-import {Model} from 'mongoose';
+import { Model } from 'mongoose';
 
 export interface ProductMutation {
   category: string;
-  title: string,
-  price: number,
-  description: string,
-  image: string | null,
+  title: string;
+  price: number;
+  description: string;
+  image: string | null;
 }
 
 export interface UserFields {
@@ -21,4 +19,4 @@ interface UserMethods {
   generateToken(): void;
 }
 
-type UserModel = Model<UserFields, {}, UserMethods>;
+type UserModel = Model<UserFields, unknown, UserMethods>;

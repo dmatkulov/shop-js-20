@@ -1,4 +1,4 @@
-import {Schema, model, Types} from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import Category from './Category';
 
 const ProductSchema = new Schema({
@@ -12,7 +12,7 @@ const ProductSchema = new Schema({
         return Boolean(category);
       },
       message: 'Category does not exist!',
-    }
+    },
   },
   title: {
     type: String,
