@@ -9,7 +9,7 @@ const ProductSchema = new Schema({
     validate: {
       validator: async (value: Types.ObjectId) => {
         const category = await Category.findById(value);
-        return !!category;
+        return Boolean(category);
       },
       message: 'Category does not exist!',
     }

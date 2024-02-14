@@ -1,8 +1,8 @@
 import {Router} from 'express';
+import mongoose, {Types} from 'mongoose';
 import {ProductMutation} from '../types';
 import {imagesUpload} from '../multer';
 import Product from '../models/Product';
-import mongoose, {Types} from 'mongoose';
 
 const productsRouter = Router();
 
@@ -33,10 +33,6 @@ productsRouter.get('/:id', async (req, res, next) => {
 
     res.send(product);
   } catch (e) {
-    if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(422).send(e)
-    }
-    
     next(e);
   }
 });
@@ -57,8 +53,9 @@ productsRouter.post('/', imagesUpload.single('image'), async (req, res, next) =>
     res.send(product);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(422).send(e)
+      return res.status(422).send(e);
     }
+
     next(e);
   }
 });
