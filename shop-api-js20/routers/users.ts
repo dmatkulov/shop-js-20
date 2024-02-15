@@ -1,8 +1,10 @@
 import express from 'express';
-import User from '../models/User';
 import mongoose from 'mongoose';
+import User from '../models/User';
+import auth, { RequestWithUser } from '../middleware/auth';
 
 const userRouter = express.Router();
+
 userRouter.post('/', async (req, res, next) => {
   try {
     const user = new User({
@@ -12,12 +14,14 @@ userRouter.post('/', async (req, res, next) => {
 
     user.generateToken();
     await user.save();
+
     return res.send(user);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(422).send(e);
     }
-    return next(e);
+
+    next(e);
   }
 });
 
@@ -26,13 +30,13 @@ userRouter.post('/sessions', async (req, res, next) => {
     const user = await User.findOne({ username: req.body.username });
 
     if (!user) {
-      return res.status(422).send({ error: 'Username not found!' });
+      return res.status(422).send({ error: 'Username not found' });
     }
 
     const isMatch = await user.checkPassword(req.body.password);
 
     if (!isMatch) {
-      return res.status(422).send({ error: 'Password is wrong!' });
+      return res.status(422).send({ error: 'Password is wrong' });
     }
 
     user.generateToken();
@@ -44,30 +48,11 @@ userRouter.post('/sessions', async (req, res, next) => {
   }
 });
 
-userRouter.get('/secret', async (req, res, next) => {
+userRouter.get('/secret', auth, async (req: RequestWithUser, res, next) => {
   try {
-    const headerValue = req.get('Authorization');
-
-    if (!headerValue) {
-      return res.status(401).send({ error: 'No Authorization header present' });
-    }
-
-    const [_bearer, token] = headerValue.split(' ');
-
-    if (!token) {
-      return res.status(401).send({ error: 'Not token present' });
-    }
-
-    const user = await User.findOne({ token });
-
-    if (!user) {
-      return res.status(401).send({ error: 'Wrong token' });
-    }
-
-    console.log(headerValue);
     return res.send({
-      message: 'This is a secret message',
-      username: user.username,
+      message: 'This is a secret message!',
+      username: req.user?.username,
     });
   } catch (e) {
     next(e);

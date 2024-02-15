@@ -17,7 +17,6 @@ app.use(cors());
 app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/users', userRouter);
-
 const run = async () => {
   await mongoose.connect(config.mongoose.db);
 

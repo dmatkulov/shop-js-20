@@ -14,6 +14,12 @@ export interface UserFields {
   token: string;
 }
 
+export interface UserFields {
+  username: string;
+  password: string;
+  token: string;
+}
+
 interface UserMethods {
   checkPassword(password: string): Promise<boolean>;
   generateToken(): void;
