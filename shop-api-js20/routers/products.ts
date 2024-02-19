@@ -53,6 +53,8 @@ productsRouter.post(
         image: req.file ? req.file.filename : null,
       };
 
+      console.log('req.body.category', req.body.category);
+
       const product = new Product(productData);
       await product.save();
 

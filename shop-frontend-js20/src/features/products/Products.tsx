@@ -9,11 +9,11 @@ import ProductItem from './components/ProductItem';
 const Products = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectProducts);
-  
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-  
+
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item container justifyContent="space-between" alignItems="center">
@@ -27,7 +27,7 @@ const Products = () => {
         </Grid>
       </Grid>
       <Grid item container spacing={2}>
-        {products.map(product => (
+        {products.map((product) => (
           <ProductItem
             key={product._id}
             id={product._id}

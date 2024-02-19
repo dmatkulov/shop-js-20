@@ -7,7 +7,7 @@ export const fetchProducts = createAsyncThunk<Product[]>(
   async () => {
     const dishesResponse = await axiosApi.get<Product[]>('/products');
     return dishesResponse.data.reverse();
-  }
+  },
 );
 
 export const createProduct = createAsyncThunk<null, ProductMutation>(
@@ -16,7 +16,7 @@ export const createProduct = createAsyncThunk<null, ProductMutation>(
     const formData = new FormData();
 
     const keys = Object.keys(productMutation) as (keyof ProductMutation)[];
-    keys.forEach(key => {
+    keys.forEach((key) => {
       const value = productMutation[key];
 
       if (value !== null) {
@@ -25,5 +25,5 @@ export const createProduct = createAsyncThunk<null, ProductMutation>(
     });
 
     return axiosApi.post('/products', formData);
-  }
+  },
 );

@@ -1,5 +1,14 @@
 import React from 'react';
-import { Card, CardActions, CardContent, CardHeader, CardMedia, Grid, IconButton, styled } from '@mui/material';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Grid,
+  IconButton,
+  styled,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import imageNotAvailable from '../../../assets/images/image_not_available.png';
@@ -18,18 +27,24 @@ interface Props {
   category: string;
 }
 
-const ProductItem: React.FC<Props> = ({title, price, id, image, category}) => {
+const ProductItem: React.FC<Props> = ({
+  title,
+  price,
+  id,
+  image,
+  category,
+}) => {
   let cardImage = imageNotAvailable;
-  
+
   if (image) {
     cardImage = apiURL + '/' + image;
   }
-  
+
   return (
     <Grid item sm md={6} lg={4}>
-      <Card sx={{height: '100%'}}>
-        <CardHeader title={title}/>
-        <ImageCardMedia image={cardImage} title={title}/>
+      <Card sx={{ height: '100%' }}>
+        <CardHeader title={title} />
+        <ImageCardMedia image={cardImage} title={title} />
         <CardContent>
           <p>
             <strong>Category: </strong> {category}
@@ -38,7 +53,7 @@ const ProductItem: React.FC<Props> = ({title, price, id, image, category}) => {
         </CardContent>
         <CardActions>
           <IconButton component={Link} to={'/products/' + id}>
-            <ArrowForwardIcon/>
+            <ArrowForwardIcon />
           </IconButton>
         </CardActions>
       </Card>

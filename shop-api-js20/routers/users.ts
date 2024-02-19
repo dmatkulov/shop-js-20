@@ -15,12 +15,12 @@ userRouter.post('/', async (req, res, next) => {
     user.generateToken();
     await user.save();
 
-    return res.send(user);
+    return res.send({ message: 'OK!', user });
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(422).send(e);
     }
-
+    console.log(e);
     next(e);
   }
 });
@@ -50,9 +50,11 @@ userRouter.post('/sessions', async (req, res, next) => {
 
 userRouter.get('/secret', auth, async (req: RequestWithUser, res, next) => {
   try {
+    const name = req.user?.username;
+
     return res.send({
       message: 'This is a secret message!',
-      username: req.user?.username,
+      username: name,
     });
   } catch (e) {
     next(e);
