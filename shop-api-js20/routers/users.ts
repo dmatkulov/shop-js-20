@@ -20,7 +20,6 @@ userRouter.post('/', async (req, res, next) => {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(422).send(e);
     }
-    console.log(e);
     next(e);
   }
 });

@@ -1,12 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import {
-  AppBar,
-  Button,
-  Stack,
-  styled,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { AppBar, Grid, styled, Toolbar, Typography } from '@mui/material';
+import { useAppSelector } from '../../../app/hooks';
+import { selectUser } from '../../../features/users/usersSlice';
+import AnonymousMenu from './AnonymousMenu';
+import UserMenu from './UserMenu';
 
 const Link = styled(NavLink)({
   color: 'inherit',
@@ -17,17 +14,18 @@ const Link = styled(NavLink)({
 });
 
 const AppToolbar = () => {
+  const user = useAppSelector(selectUser);
+
   return (
     <AppBar position="sticky" sx={{ mb: 2 }}>
       <Toolbar>
-        <Stack direction="row" spacing={5}>
+        <Grid container justifyContent="space-between" alignItems="center">
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/">CompStore</Link>
           </Typography>
-          <Button component={NavLink} to="/register" color="inherit">
-            Sign Up
-          </Button>
-        </Stack>
+
+          {user ? <UserMenu user={user} /> : <AnonymousMenu />}
+        </Grid>
       </Toolbar>
     </AppBar>
   );
