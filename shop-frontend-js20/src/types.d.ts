@@ -22,18 +22,18 @@ export interface Category {
 }
 
 export interface RegisterMutation {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface LoginMutation {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface User {
   _id: string;
-  username: string;
+  email: string;
   token: string;
   role: string;
 }
