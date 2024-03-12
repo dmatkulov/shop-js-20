@@ -11,9 +11,10 @@ const dropCollection = async (
   try {
     await db.dropCollection(collectionName);
   } catch (e) {
-    console.log(`\`Collection ${collectionName} was missing, skipping drop...`);
+    console.log(`Collection ${collectionName} was missing, skipping drop...`);
   }
 };
+
 const run = async () => {
   await mongoose.connect(config.mongoose.db);
   const db = mongoose.connection;
@@ -31,7 +32,7 @@ const run = async () => {
     },
     {
       title: 'SSDs',
-      description: 'Solid State Drive',
+      description: 'Solid State Drives',
     },
   );
 
@@ -50,11 +51,20 @@ const run = async () => {
     },
   );
 
-  await User.create({
-    username: 'user',
-    password: 'JdwFFctM2M%JrDZn3hgrC4V',
-    token: crypto.randomUUID(),
-  });
+  await User.create(
+    {
+      username: 'user',
+      password: '1@345qWert',
+      token: crypto.randomUUID(),
+      role: 'client',
+    },
+    {
+      username: 'admin',
+      password: '1@345qWert',
+      token: crypto.randomUUID(),
+      role: 'admin',
+    },
+  );
 
   await db.close();
 };

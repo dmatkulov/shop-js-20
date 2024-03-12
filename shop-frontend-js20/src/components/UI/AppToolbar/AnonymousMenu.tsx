@@ -1,16 +1,12 @@
-import { Button, Stack } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 const AnonymousMenu = () => {
   return (
-    <Stack direction="row" spacing={3}>
-      <Button component={NavLink} to="/register" color="inherit">
-        Sign Up
-      </Button>
-      <Button component={NavLink} to="/login" color="inherit">
-        Sign In
-      </Button>
-    </Stack>
+    <Grid item>
+      <Button component={NavLink} to="/register" color="inherit">Sign Up</Button>
+      <Button component={NavLink} to="/login" color="inherit">Sign In</Button>
+    </Grid>
   );
 };
 

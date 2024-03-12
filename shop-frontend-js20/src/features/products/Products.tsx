@@ -5,10 +5,12 @@ import { selectProducts } from './productsSlice';
 import { useEffect } from 'react';
 import { fetchProducts } from './productsThunks';
 import ProductItem from './components/ProductItem';
+import { selectUser } from '../users/usersSlice';
 
 const Products = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectProducts);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -20,14 +22,16 @@ const Products = () => {
         <Grid item>
           <Typography variant="h4">Products</Typography>
         </Grid>
-        <Grid item>
-          <Button color="primary" component={Link} to="/products/new">
-            Add product
-          </Button>
-        </Grid>
+        {user && user.role === 'admin' && (
+          <Grid item>
+            <Button color="primary" component={Link} to="/products/new">
+              Add product
+            </Button>
+          </Grid>
+        )}
       </Grid>
-      <Grid item container spacing={2}>
-        {products.map((product) => (
+      <Grid item container spacing={2} flexWrap="wrap" direction="row">
+        {products.map(product => (
           <ProductItem
             key={product._id}
             id={product._id}

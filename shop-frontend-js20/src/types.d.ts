@@ -12,7 +12,7 @@ export interface ProductMutation {
   title: string;
   description: string;
   price: string;
-  image: File | null;
+  image: File | string | null;
 }
 
 export interface Category {
@@ -35,6 +35,7 @@ export interface User {
   _id: string;
   username: string;
   token: string;
+  role: string;
 }
 
 export interface ValidationError {
@@ -42,8 +43,8 @@ export interface ValidationError {
     [key: string]: {
       name: string;
       message: string;
-    };
-  };
+    }
+  },
   message: string;
   name: string;
   _message: string;
@@ -56,4 +57,9 @@ export interface RegisterResponse {
 
 export interface GlobalError {
   error: string;
+}
+
+export interface UpdateProductArg {
+  productId: string;
+  productMutation: ProductMutation;
 }

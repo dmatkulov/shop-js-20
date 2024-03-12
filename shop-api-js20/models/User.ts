@@ -1,7 +1,7 @@
+import { randomUUID } from 'crypto';
 import mongoose, { HydratedDocument } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { UserFields, UserMethods, UserModel } from '../types';
-import { randomUUID } from 'crypto';
 
 const SALT_WORK_FACTOR = 10;
 
@@ -18,12 +18,14 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
         username: string,
       ): Promise<boolean> {
         if (!this.isModified('username')) return true;
+
         const user: HydratedDocument<UserFields> | null = await User.findOne({
           username: username,
         });
+
         return !user;
       },
-      message: 'This user is already registered',
+      message: 'This user is already registered!',
     },
   },
   password: {
@@ -33,6 +35,12 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
   token: {
     type: String,
     required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: ['client', 'admin'],
+    default: 'client',
   },
 });
 
@@ -48,8 +56,10 @@ UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
+
   const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
   this.password = await bcrypt.hash(this.password, salt);
+
   next();
 });
 

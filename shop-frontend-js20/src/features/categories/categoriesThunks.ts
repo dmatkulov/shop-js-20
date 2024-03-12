@@ -7,5 +7,5 @@ export const fetchCategories = createAsyncThunk(
   async () => {
     const response = await axiosApi.get<Category[]>('/categories');
     return response.data;
-  },
+  }
 );

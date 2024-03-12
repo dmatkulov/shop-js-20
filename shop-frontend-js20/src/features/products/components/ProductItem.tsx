@@ -1,18 +1,11 @@
 import React from 'react';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Grid,
-  IconButton,
-  styled,
-} from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Grid, IconButton, styled } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import imageNotAvailable from '../../../assets/images/image_not_available.png';
 import { apiURL } from '../../../constants';
+import { useAppSelector } from '../../../app/hooks';
+import { selectUser } from '../../users/usersSlice';
 
 const ImageCardMedia = styled(CardMedia)({
   height: 0,
@@ -27,13 +20,8 @@ interface Props {
   category: string;
 }
 
-const ProductItem: React.FC<Props> = ({
-  title,
-  price,
-  id,
-  image,
-  category,
-}) => {
+const ProductItem: React.FC<Props> = ({title, price, id, image, category}) => {
+  const user = useAppSelector(selectUser);
   let cardImage = imageNotAvailable;
 
   if (image) {
@@ -41,20 +29,29 @@ const ProductItem: React.FC<Props> = ({
   }
 
   return (
-    <Grid item sm md={6} lg={4}>
-      <Card sx={{ height: '100%' }}>
-        <CardHeader title={title} />
-        <ImageCardMedia image={cardImage} title={title} />
+    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+      <Card sx={{height: '100%'}}>
+        <CardHeader title={title}/>
+        <ImageCardMedia image={cardImage} title={title}/>
         <CardContent>
           <p>
-            <strong>Category: </strong> {category}
+            <strong>Category:</strong> {category}
           </p>
           <strong>{price} KGS</strong>
         </CardContent>
         <CardActions>
-          <IconButton component={Link} to={'/products/' + id}>
-            <ArrowForwardIcon />
-          </IconButton>
+          <Grid container justifyContent="space-between">
+            <Grid item>
+              <IconButton component={Link} to={'/products/' + id}>
+                <ArrowForwardIcon/>
+              </IconButton>
+            </Grid>
+            <Grid item>
+              {user?.role === 'admin' && (
+                <Button component={Link} to={`/products/${id}/edit`}>Edit</Button>
+              )}
+            </Grid>
+          </Grid>
         </CardActions>
       </Card>
     </Grid>

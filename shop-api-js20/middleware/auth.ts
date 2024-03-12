@@ -18,7 +18,7 @@ const auth = async (
     return res.status(401).send({ error: 'No Authorization header present' });
   }
 
-  const [_bearer, token] = headerValue.split(' ');
+  const [_bearer, token] = headerValue.split(' '); // "Bearer token"
 
   if (!token) {
     return res.status(401).send({ error: 'No token present' });
@@ -27,10 +27,12 @@ const auth = async (
   const user = await User.findOne({ token });
 
   if (!user) {
-    return res.status(401).send({ error: 'Wrong token' });
+    return res.status(401).send({ error: 'Wrong token!' });
   }
 
   req.user = user;
+
   next();
 };
+
 export default auth;

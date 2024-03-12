@@ -2,15 +2,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { productsReducer } from '../features/products/productsSlice';
 import { categoriesReducer } from '../features/categories/categoriesSlice';
 import { usersReducer } from '../features/users/usersSlice';
+import { persistReducer, FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import {
-  persistReducer,
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistStore,
-} from 'redux-persist';
-import { PURGE, REGISTER, REHYDRATE } from 'redux-persist/es/constants';
 
 const usersPersistConfig = {
   key: 'shop:users',
@@ -26,12 +19,11 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, PAUSE, PERSIST, REHYDRATE, PURGE, REGISTER],
-      },
-    }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, PAUSE, PERSIST, REHYDRATE, PURGE, REGISTER]
+    }
+  })
 });
 
 export const persistor = persistStore(store);
